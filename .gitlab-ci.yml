@@ -1,0 +1,21 @@
+stages:
+  - build
+  - test
+  - deploy
+
+# Étape 1 : Build de l'image Docker du backend
+build-backend:
+  stage: build
+  script:
+    - docker build -t falloutall/backend_car .
+  only:
+    - main
+
+# Étape 2 : Pousser l'image Docker sur Docker Hub
+deploy-backend:
+  stage: deploy
+  script:
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - docker push falloutall/backend_car
+  only:
+    - main
